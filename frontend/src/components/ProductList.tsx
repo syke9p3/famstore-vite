@@ -4,17 +4,8 @@ import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import Skeleton from "../components/Skeleton";
 import { cn, formatPrice } from "../lib/utils";
+import { IProduct } from "../lib/types/types";
 
-interface IProduct {
-    id: number,
-    name: string,
-    description: string,
-    price: number,
-    make: string,
-    category?: string,
-    thumbnail: string,
-    images: string[],
-}
 
 
 
@@ -57,7 +48,6 @@ const DaisyTable = () => {
         axios.get('data/products.json')
             .then((res) => {
                 setProducts(res.data.products);
-                setIsLoading(false);
                 console.log(res.data);
             }
             )
@@ -65,7 +55,7 @@ const DaisyTable = () => {
                 console.error("Error: ", e);
                 setError(e);
             })
-
+        setIsLoading(false);
     }, [])
 
     const filteredProducts = useMemo(() => {
@@ -91,11 +81,7 @@ const DaisyTable = () => {
                             <th className="hidden md:block">Action</th>
                         </tr>
                     </thead>
-
-
                     <tbody>
-
-
                         {
                             noFilteredProducts && (
                                 <tr className="p-4 opacity-50 flex justify-center" style={{ height: '3rem' }}>
@@ -114,7 +100,7 @@ const DaisyTable = () => {
                             !isLoading && filteredProducts.map((product, i) => (
                                 <tr key={i}>
                                     <td>
-                                        <Link to={`/products/{id}`}>
+                                        <Link to={`/products/${product.id}`}>
                                             <div className="flex items-center gap-3">
                                                 <div className="avatar">
                                                     <div className="mask mask-squircle h-12 w-12">

@@ -3,7 +3,7 @@
     {
       "id": "d6e15776-9fe1-2961-8c5b-ea44a9ad81aa",
       "name": "Magic Sarap",
-      "description": "An apple mobile which is nothing like apple",
+      "description": "Panghalo sa mga sangkap.",
       "price": 4,
       "make": "Maggi",
       "category": "smartphones",
@@ -18,8 +18,8 @@
     },
     {
       "id": "d6e15776-9fe1-2961-8c5b-6a44a9ad81aa",
-      "name": "Argentina Corned Beef",
-      "description": "An apple mobile which is nothing like apple",
+      "name": "Argentina Corned Beef 100 mg",
+      "description": "Corned Beef na 100 grams",
       "price": 32,
       "make": "Argentina",
       "category": "smartphones",
