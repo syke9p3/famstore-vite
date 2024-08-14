@@ -1,7 +1,9 @@
-import { Link } from "react-router-dom"
+import { Link, useSearchParams } from "react-router-dom"
 import { BsThreeDots } from "react-icons/bs";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
+import Skeleton from "../components/Skeleton";
+import { cn, formatPrice } from "../lib/utils";
 
 interface IProduct {
     id: number,
@@ -15,9 +17,19 @@ interface IProduct {
 }
 
 
-// TODO: Move to util
-const formatPrice = (num: number) => {
-    return (Math.round(num * 100) / 100).toFixed(2);
+
+const filterProducts = (products: IProduct[], query: string | null) => {
+
+    if (!query) return products;
+
+    query = query.toLowerCase();
+
+    return products.sort((a, b) => {
+        return a.name.localeCompare(b.name)
+    }).filter((product) => {
+        const productName = product.name.toLowerCase();
+        return productName.includes(query);
+    })
 }
 
 
@@ -28,12 +40,14 @@ const ProductList = () => {
 }
 
 
-
 const DaisyTable = () => {
 
-    const [products, setProducts] = useState<IProduct[]>();
+    const [products, setProducts] = useState<IProduct[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
+
+    const [searchParams] = useSearchParams();
+    const query = searchParams.get('query');
 
     useEffect(() => {
 
@@ -48,31 +62,59 @@ const DaisyTable = () => {
             }
             )
             .catch((e) => {
-                console.log("Eyyyyyyyyyyyyyy");
                 console.error("Error: ", e);
                 setError(e);
             })
+
     }, [])
 
+    const filteredProducts = useMemo(() => {
+        return filterProducts(products, query)
+    }, [isLoading, searchParams])
+
+    const noFilteredProducts = filteredProducts.length == 0
+
     return (
-        <div className="py-3 md:px-6 bg-white border md:border-gray-300 rounded-lg">
+        <div className={cn(`py-3 md:px-6 bg-white border md:border-gray-300 rounded-lg`)}>
             <div className="overflow-x-auto">
                 <table className="table">
+
                     {/* head */}
                     <thead>
-                        <tr>
+                        <tr className={cn('', {
+                            'hidden': noFilteredProducts
+                        })}>
                             <th>Name</th>
-                            <th>Price</th>
+                            <th className={cn('', {
+                                'hidden': noFilteredProducts
+                            })}>Price</th>
                             <th className="hidden md:block">Action</th>
                         </tr>
                     </thead>
+
+
                     <tbody>
+
+
                         {
-                            products && products.map((product, i) => (
+                            noFilteredProducts && (
+                                <tr className="p-4 opacity-50 flex justify-center" style={{ height: '3rem' }}>
+                                    <p>No items found with&nbsp;"<span className="italic">{query}</span>"</p>
+
+                                </tr>
+                            )
+                        }
+                        {
+                            isLoading && (
+                                <Skeleton.List />
+                            )
+                        }
+
+                        {
+                            !isLoading && filteredProducts.map((product, i) => (
                                 <tr key={i}>
                                     <td>
                                         <Link to={`/products/{id}`}>
-
                                             <div className="flex items-center gap-3">
                                                 <div className="avatar">
                                                     <div className="mask mask-squircle h-12 w-12">
@@ -96,13 +138,14 @@ const DaisyTable = () => {
                                 </tr>
                             ))
                         }
-                        {/* row 3 */}
 
 
                     </tbody>
                     {/* foot */}
                     <tfoot>
-                        <tr>
+                        <tr className={cn('', {
+                            'hidden': noFilteredProducts
+                        })}>
                             <th>Name</th>
                             <th>Price</th>
                             <th className="hidden md:block">Action</th>
@@ -110,7 +153,7 @@ const DaisyTable = () => {
                     </tfoot>
                 </table>
             </div>
-        </div>
+        </div >
     )
 }
 

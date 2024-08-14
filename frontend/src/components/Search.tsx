@@ -1,26 +1,32 @@
-import { Dispatch } from "react"
+import { Dispatch, useRef } from "react"
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 
-interface SearchProps {
-    searchQuery: string,
-    setSearchQuery: (name: string) => void,
-}
+const Search = () => {
 
-const Search = ({
-    searchQuery,
-    setSearchQuery
-}: SearchProps) => {
+    const [searchParams] = useSearchParams();
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    const inputRef = useRef<HTMLInputElement | null>(null);
 
     const handleSearchChange = (query: string) => {
-        setSearchQuery(query);
-        console.log(searchQuery)
+        const params = new URLSearchParams(searchParams);
+
+        if (query) {
+            params.set('query', query);
+        } else {
+            params.delete('query');
+        }
+
+        navigate(`${location.pathname}?${params.toString()}`, { replace: true });
     }
 
     return (
         <div className='py-6'>
             <label className="input input-sm input-bordered flex items-center gap-2">
-                <input type="text" className="grow" placeholder="Search"
+                <input type="text" ref={inputRef} className="grow" placeholder="Search"
                     onChange={(e) => handleSearchChange(e.target.value)}
-                    value={searchQuery} />
+                    defaultValue={searchParams.get('query')?.toString()} />
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 16 16"

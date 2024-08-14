@@ -1,13 +1,13 @@
 {
   "products": [
     {
-      "id": 1,
+      "id": "d6e15776-9fe1-2961-8c5b-ea44a9ad81aa",
       "name": "Magic Sarap",
       "description": "An apple mobile which is nothing like apple",
       "price": 4,
       "make": "Maggi",
       "category": "smartphones",
-      "thumbnail": "https://i.dummyjson.com/data/products/1/thumbnail.jpg",
+      "thumbnail": "https://ever.ph/cdn/shop/products/100000091985-Maggi-Magic-Sarap-All-In-One-Seasoning-Granules-55g-230705_ca933212-0e2d-4c89-a160-e2318c4ebcaa_1200x1200.jpg?v=1688968768",
       "images": [
         "https://i.dummyjson.com/data/products/1/1.jpg",
         "https://i.dummyjson.com/data/products/1/2.jpg",
@@ -17,7 +17,7 @@
       ]
     },
     {
-      "id": 2,
+      "id": "d6e15776-9fe1-2961-8c5b-6a44a9ad81aa",
       "name": "Argentina Corned Beef",
       "description": "An apple mobile which is nothing like apple",
       "price": 32,

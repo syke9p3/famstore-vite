@@ -7,8 +7,8 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-import Home from "./pages/Home";
-import Navbar from "./components/shared/Navbar";
+import Products from "./pages/Products";
+import Navbar from "./components/Navbar";
 import ProductPage from "./pages/ProductPage";
 
 const Layout = () => {
@@ -27,7 +27,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Home />,
+        element: <Products />,
       },
       {
         path: '/products/:id',
