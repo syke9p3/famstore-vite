@@ -6,24 +6,6 @@ import Skeleton from "../components/Skeleton";
 import { cn, formatPrice } from "../lib/utils";
 import { IProduct } from "../lib/types/types";
 
-
-
-
-const filterProducts = (products: IProduct[], query: string | null) => {
-
-    if (!query) return products;
-
-    query = query.toLowerCase();
-
-    return products.sort((a, b) => {
-        return a.name.localeCompare(b.name)
-    }).filter((product) => {
-        const productName = product.name.toLowerCase();
-        return productName.includes(query);
-    })
-}
-
-
 const ProductList = () => {
     return (
         <DaisyTable />
@@ -49,17 +31,32 @@ const DaisyTable = () => {
             .then((res) => {
                 setProducts(res.data.products);
                 console.log(res.data);
+                setIsLoading(false);
             }
             )
             .catch((e) => {
                 console.error("Error: ", e);
                 setError(e);
+                setIsLoading(false);
             })
-        setIsLoading(false);
     }, [])
 
+    const filterProducts = (query: string | null) => {
+
+        if (!query) return products;
+
+        query = query.toLowerCase();
+
+        return products.sort((a, b) => {
+            return a.name.localeCompare(b.name)
+        }).filter((product) => {
+            const productName = product.name.toLowerCase();
+            return productName.includes(query);
+        })
+    }
+
     const filteredProducts = useMemo(() => {
-        return filterProducts(products, query)
+        return filterProducts(query)
     }, [isLoading, searchParams])
 
     const noFilteredProducts = filteredProducts.length == 0
@@ -84,8 +81,10 @@ const DaisyTable = () => {
                     <tbody>
                         {
                             noFilteredProducts && (
-                                <tr className="p-4 opacity-50 flex justify-center" style={{ height: '3rem' }}>
-                                    <p>No items found with&nbsp;"<span className="italic">{query}</span>"</p>
+                                <tr className="p-4 opacity-50 flex justify-center" >
+                                    <td style={{ height: '3rem' }}>
+                                        <p>No items found with&nbsp;"<span className="italic">{query}</span>"</p>
+                                    </td>
 
                                 </tr>
                             )
@@ -97,7 +96,7 @@ const DaisyTable = () => {
                         }
 
                         {
-                            !isLoading && filteredProducts.map((product, i) => (
+                            products && filteredProducts.map((product, i) => (
                                 <tr key={i}>
                                     <td>
                                         <Link to={`/products/${product.id}`}>

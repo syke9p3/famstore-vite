@@ -13,7 +13,7 @@ const DaisyNavbar = () => {
     return (
         <div className="navbar bg-base-100 z-40" role='navbar'>
             <Link to={'/'} className="flex-1">
-                <a className="btn btn-ghost text-xl">FamStore</a>
+                <div className="btn btn-ghost text-xl">FamStore</div>
             </Link>
             <div className="flex-none">
                 <ul className="menu menu-horizontal px-1">
