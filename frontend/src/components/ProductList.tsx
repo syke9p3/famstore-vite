@@ -1,10 +1,11 @@
 import { Link, useSearchParams } from "react-router-dom"
 import { BsThreeDots } from "react-icons/bs";
+import { FaPlus } from "react-icons/fa6";
 import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import Skeleton from "../components/Skeleton";
 import { cn, formatPrice } from "../lib/utils";
-import { IProduct } from "../lib/types/types";
+import { Product } from "../lib/types/products";
 
 const ProductList = () => {
     return (
@@ -15,7 +16,7 @@ const ProductList = () => {
 
 const DaisyTable = () => {
 
-    const [products, setProducts] = useState<IProduct[]>([]);
+    const [products, setProducts] = useState<Product[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
 
@@ -62,7 +63,7 @@ const DaisyTable = () => {
     const noFilteredProducts = filteredProducts.length == 0
 
     return (
-        <div className={cn(`py-3 md:px-6 bg-white border md:border-gray-300 rounded-lg`)}>
+        <div className={cn(`py-3 md:px-6 bg-white border md:border-gray-300 md:border-t-transparent`)}>
             <div className="overflow-x-auto">
                 <table className="table">
 
@@ -110,7 +111,7 @@ const DaisyTable = () => {
                                                 </div>
                                                 <div>
                                                     <div className="font-bold truncate">{product.name}</div>
-                                                    <div className="text-sm opacity-50">{product.make}</div>
+                                                    <div className="text-sm opacity-50">{product.brand}</div>
                                                 </div>
                                             </div>
                                         </Link>
@@ -138,10 +139,22 @@ const DaisyTable = () => {
                     </tfoot>
                 </table>
             </div>
+            <FAB />
         </div >
     )
 }
 
+const FAB = () => {
+    return (
+        <Link to={`/products/create`}>
+            <div className="fixed bottom-4 right-4">
+                <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-4 px-4 rounded-full shadow-lg">
+                    <FaPlus />
+                </button>
+            </div>
+        </Link>
+    )
+}
 
 
 // const CustomList = () => {
