@@ -10,6 +10,7 @@ import {
 import Products from "./pages/Products";
 import Navbar from "./components/Navbar";
 import ProductPage from "./pages/ProductPage";
+import CreateProduct from './pages/CreateProduct';
 
 const Layout = () => {
   return (
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
       {
         path: '/products/:id',
         element: <ProductPage />,
+      },
+      {
+        path: '/products/create',
+        element: <CreateProduct />,
       },
     ]
   },

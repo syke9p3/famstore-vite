@@ -1,5 +1,6 @@
 import { Dispatch, useRef } from "react"
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { FaPlus } from "react-icons/fa6";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 
 const Search = () => {
 
@@ -22,8 +23,8 @@ const Search = () => {
     }
 
     return (
-        <div className='py-6'>
-            <label className="input input-sm input-bordered flex items-center gap-2">
+        <div className='py-6 sticky top-0 bg-white z-40 border-b flex justify-between'>
+            <label className="input input-sm input-bordered flex items-center gap-2 flex-1">
                 <input type="text" ref={inputRef} className="grow" placeholder="Search"
                     onChange={(e) => handleSearchChange(e.target.value)}
                     defaultValue={searchParams.get('query')?.toString()} />
@@ -38,11 +39,24 @@ const Search = () => {
                         clipRule="evenodd" />
                 </svg>
             </label>
+            {/* <FAB /> */}
         </div>
 
 
 
 
+    )
+}
+
+const FAB = () => {
+    return (
+        <Link to={`/products/create`}>
+            <div className=" bottom-4 right-4">
+                <button className="text-xs bg-blue-500 hover:bg-blue-600 text-white py-2 px-2 rounded-md ml-2 font-medium">
+                    Add Product
+                </button>
+            </div>
+        </Link>
     )
 }
 

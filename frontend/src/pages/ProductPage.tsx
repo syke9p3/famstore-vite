@@ -1,7 +1,7 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import { IProduct } from "../lib/types/types"
+import { Product } from "../lib/types/products"
 import { GrPowerReset } from "react-icons/gr";
 import { BsSuitHeartFill } from "react-icons/bs";
 import { cn, formatPrice } from "../lib/utils";
@@ -21,7 +21,7 @@ const ProductPage = () => {
 const ProductPage2 = () => {
 
 
-    const [product, setProduct] = useState<IProduct>();
+    const [product, setProduct] = useState<Product>();
     const [quantity, setQuantity] = useState<number>(1);
     const [isFavorite, setIsFavorite] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
@@ -36,7 +36,7 @@ const ProductPage2 = () => {
         axios.get('/data/products.json')
             .then((res) => {
 
-                const selectedProduct = res.data.products.find((product: IProduct) => {
+                const selectedProduct = res.data.products.find((product: Product) => {
                     return product.id === productId;
                 })
 
@@ -70,7 +70,7 @@ const ProductPage2 = () => {
                                 </div>
                                 <div className="flex items-center">
                                     <div>
-                                        <h2 className="text-sm title-font text-gray-500 tracking-widest uppercase">{product?.make}</h2>
+                                        <h2 className="text-sm title-font text-gray-500 tracking-widest uppercase">{product?.brand}</h2>
                                         <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">{product.name}</h1>
                                     </div>
                                 </div>
@@ -79,19 +79,22 @@ const ProductPage2 = () => {
                                     <QuantityCount quantity={quantity} setQuantity={setQuantity} />
                                     <button title="Reset Price" disabled={quantity == DEFAULT_QUANTITY}
                                         onClick={() => setQuantity(DEFAULT_QUANTITY)}
-                                        className={cn(`disabled:opacity-50 active:scale-90 rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center  active:bg-gray-300 hover:bg-gray-300 ml-auto`)}>
+                                        // className={cn(`disabled:opacity-50 active:scale-90 rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center  active:bg-gray-300 hover:bg-gray-300 ml-2`)}>
+                                        className={cn(`disabled:invisible hover:underline rounded-full w-10 h-10 text-blue-500 p-0 border-0 inline-flex items-center justify-center  ml-4`)}>
                                         <GrPowerReset size={18} className={cn('text-gray-500')} />
+                                        Reset
                                     </button>
                                 </div>
                                 <div className="flex items-center justify-between title-font font-medium text-2xl text-gray-900">
-                                    <div className="font-mono text-red-600 text-base">{formatPrice(product.price)} x {quantity}</div>
-                                    <div className=" ml-auto">{formatPrice(product.price * quantity)}</div>
+                                    <div className="font-mono text-gray-500 text-base">{formatPrice(product.price)} x {quantity}</div>
+                                    <div className="ml-auto">{formatPrice(product.price * quantity)}</div>
                                 </div>
                             </div>
                         </div>
                         <img alt="ecommerce" className="lg:w-1/2 w-full object-cover object-center rounded border border-gray-200 " src={product?.thumbnail} />
                     </div>
                 </div>
+
             </section>
         )}
     </>)
@@ -102,7 +105,7 @@ const FavoriteButton = ({ isFavorite, setIsFavorite }: { isFavorite: boolean, se
         <button
             onClick={() => setIsFavorite((prev) => !prev)}
             className={cn(`active:scale-90 rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-auto`, {
-                'bg-red-500 active:bg-red-600 hover:bg-red-400': isFavorite,
+                'bg-blue-500 active:bg-blue-600 hover:bg-blue-400': isFavorite,
                 'bg-gray-200 active:bg-gray-300 hover:bg-gray-300': !isFavorite
             }
             )}>

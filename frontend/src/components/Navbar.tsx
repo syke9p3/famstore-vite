@@ -15,7 +15,7 @@ const DaisyNavbar = () => {
             <Link to={'/'} className="flex-1">
                 <div className="btn btn-ghost text-xl">FamStore</div>
             </Link>
-            <div className="flex-none">
+            {/* <div className="flex-none">
                 <ul className="menu menu-horizontal px-1">
                     <li><a>Source Code</a></li>
                     <li className="z-50">
@@ -29,7 +29,7 @@ const DaisyNavbar = () => {
                         </details>
                     </li>
                 </ul>
-            </div>
+            </div> */}
             <div className='btn btn-ghost '>
                 <div className="avatar">
                     <div className="w-8 rounded-full">
